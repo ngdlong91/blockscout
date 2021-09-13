@@ -225,6 +225,40 @@ defmodule Explorer.SmartContract.Reader do
     end
   end
 
+  def read_functions_required_wallet_proxy(implementation_address_hash_string) do
+    implementation_abi = Chain.get_implementation_abi(implementation_address_hash_string)
+
+    case implementation_abi do
+      nil ->
+        []
+
+      _ ->
+        implementation_abi_with_method_id = get_abi_with_method_id(implementation_abi)
+
+        implementation_abi_with_method_id
+        |> Enum.filter(&Helper.read_with_wallet_method?(&1))
+    end
+  end
+
+  @spec read_functions_required_wallet(Hash.t()) :: [%{}]
+  def read_functions_required_wallet(contract_address_hash) do
+    abi =
+      contract_address_hash
+      |> Chain.address_hash_to_smart_contract()
+      |> Map.get(:abi)
+
+    case abi do
+      nil ->
+        []
+
+      _ ->
+        abi_with_method_id = get_abi_with_method_id(abi)
+
+        abi_with_method_id
+        |> Enum.filter(&Helper.read_with_wallet_method?(&1))
+    end
+  end
+
   defp get_abi_with_method_id(abi) do
     parsed_abi =
       abi

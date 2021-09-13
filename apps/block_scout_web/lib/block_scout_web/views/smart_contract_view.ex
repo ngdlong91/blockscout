@@ -13,7 +13,7 @@ defmodule BlockScoutWeb.SmartContractView do
   def writable?(function) when not is_nil(function),
     do:
       !Helper.constructor?(function) && !Helper.event?(function) &&
-        (Helper.payable?(function) || Helper.nonpayable?(function))
+        (Helper.payable?(function) || Helper.nonpayable?(function)) && !Helper.read_with_wallet_method?(function)
 
   def writable?(function) when is_nil(function), do: false
 
