@@ -39,7 +39,7 @@ defmodule Explorer.SmartContract.Writer do
 
   def write_function?(function) do
     !Helper.error?(function) && !Helper.event?(function) && !Helper.constructor?(function) &&
-      (Helper.payable?(function) || Helper.nonpayable?(function)) && !Helper.read_with_wallet_method?(function)
+      (Helper.payable?(function) || Helper.nonpayable?(function))
   end
 
   defp filter_write_functions(abi) do
