@@ -3,6 +3,7 @@ defmodule EthereumJSONRPC.Block do
   Block format as returned by [`eth_getBlockByHash`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbyhash)
   and [`eth_getBlockByNumber`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbynumber).
   """
+  require Logger
 
   import EthereumJSONRPC, only: [quantity_to_integer: 1, timestamp_to_datetime: 1]
 
@@ -568,6 +569,7 @@ defmodule EthereumJSONRPC.Block do
 
   """
   def to_elixir(block) when is_map(block) do
+    Logger.info("Convert from block response #{block}")
     Enum.into(block, %{}, &entry_to_elixir/1)
   end
 
