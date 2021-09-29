@@ -8,6 +8,7 @@ defmodule Explorer.Repo.Migrations.CreateBlocks do
       add(:gas_limit, :numeric, precision: 100, null: false)
       add(:gas_used, :numeric, precision: 100, null: false)
       add(:hash, :bytea, null: false, primary_key: true)
+      add(:commit_hash, :bytea)
       add(:miner_hash, references(:addresses, column: :hash, type: :bytea), null: false)
       add(:nonce, :bytea, null: false)
       add(:number, :bigint, null: false)

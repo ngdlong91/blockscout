@@ -16,11 +16,14 @@ defmodule EthereumJSONRPC.Block do
           gas_limit: non_neg_integer(),
           gas_used: non_neg_integer(),
           hash: EthereumJSONRPC.hash(),
+          commit_hash: EthereumJSONRPC.hash(),
+          consensus_hash: EthereumJSONRPC.hash(),
           logs_bloom: EthereumJSONRPC.hash(),
           miner_hash: EthereumJSONRPC.hash(),
           mix_hash: EthereumJSONRPC.hash(),
           nonce: EthereumJSONRPC.hash(),
           number: non_neg_integer(),
+          num_txs: non_neg_integer(),
           parent_hash: EthereumJSONRPC.hash(),
           receipts_root: EthereumJSONRPC.hash(),
           sha3_uncles: EthereumJSONRPC.hash(),
@@ -371,6 +374,58 @@ defmodule EthereumJSONRPC.Block do
     }
   end
 
+  # Custom: a response from eth_getblockbyhash for uncle blocks is without `totalDifficulty` param
+  def elixir_to_params(
+        %{
+          "commitHash" => commit_hash,
+          "consensusHash" => consensus_hash,
+          "difficulty" => difficulty,
+          "evidenceHash" => evidence_hash,
+          "extraData" => extra_data,
+          "gasLimit" => gas_limit,
+          "gasUsed" => gas_used,
+          "hash" => hash,
+          "logsBloom" => logs_bloom,
+          "miner" => miner_hash,
+          "mixHash" => mix_hash,
+          "nextValidatorHash" => next_validator_hash,
+          "nonce" => nonce,
+          "numTxs" => num_txs,
+          "number" => number,
+          "parentHash" => parent_hash,
+          "receiptsRoot" => receipts_root,
+          "rewards" => rewards,
+          "size" => size,
+          "stateRoot" => state_root,
+          "timestamp" => timestamp,
+          "transactionsRoot" => transactions_root,
+        } = elixir
+      ) do
+    %{
+      commit_hash: commit_hash,
+      consensus_hash: consensus_hash,
+      difficulty: difficulty,
+      evidence_hash: evidence_hash,
+      extra_data: extra_data,
+      gas_limit: gas_limit,
+      gas_used: gas_used,
+      hash: hash,
+      logs_bloom: logs_bloom,
+      miner_hash: miner_hash,
+      mix_hash: Map.get(elixir, "mixHash", "0x0"),
+      next_validator_hash: next_validator_hash,
+      nonce: Map.get(elixir, "nonce", 0),
+      num_txs: num_txs,
+      number: number,
+      parent_hash: parent_hash,
+      receipts_root: receipts_root,
+      size: size,
+      state_root: state_root,
+      timestamp: timestamp,
+      transactions_root: transactions_root
+    }
+  end
+
   @doc """
   Get `t:EthereumJSONRPC.Transactions.elixir/0` from `t:elixir/0`
 
@@ -503,6 +558,8 @@ defmodule EthereumJSONRPC.Block do
   @spec elixir_to_uncles(elixir) :: Uncles.elixir()
   def elixir_to_uncles(%{"hash" => nephew_hash, "uncles" => uncles}) do
     uncles
+    |> inspect()
+    |> Logger.info()
     |> Enum.with_index()
     |> Enum.map(fn {uncle_hash, index} -> %{"hash" => uncle_hash, "nephewHash" => nephew_hash, "index" => index} end)
   end
@@ -569,18 +626,19 @@ defmodule EthereumJSONRPC.Block do
 
   """
   def to_elixir(block) when is_map(block) do
-    Logger.info("Convert from block response #{block}")
     Enum.into(block, %{}, &entry_to_elixir/1)
   end
 
   defp entry_to_elixir({key, quantity})
-       when key in ~w(difficulty gasLimit gasUsed minimumGasPrice baseFeePerGas number size cumulativeDifficulty totalDifficulty paidFees) and
+       when key in ~w(difficulty gasLimit gasUsed minimumGasPrice baseFeePerGas number rewards numTxs size cumulativeDifficulty totalDifficulty paidFees) and
               not is_nil(quantity) do
+                Logger.info("Key #{key}, Quan: #{quantity}")
     {key, quantity_to_integer(quantity)}
   end
 
   # Size and totalDifficulty may be `nil` for uncle blocks
   defp entry_to_elixir({key, nil}) when key in ~w(size totalDifficulty) do
+    Logger.info("Convert from block response 2 #{key}")
     {key, nil}
   end
 
@@ -588,7 +646,7 @@ defmodule EthereumJSONRPC.Block do
   # `t:EthereumJSONRPC.address/0` and `t:EthereumJSONRPC.hash/0` pass through as `Explorer.Chain` can verify correct
   # hash format
   defp entry_to_elixir({key, _} = entry)
-       when key in ~w(author extraData hash commitHash logsBloom miner mixHash nonce parentHash receiptsRoot sealFields sha3Uncles
+       when key in ~w(author extraData hash commitHash consensusHash evidenceHash nextValidatorHash validatorHash logsBloom miner mixHash nonce parentHash receiptsRoot sealFields sha3Uncles
                      signature stateRoot step transactionsRoot uncles bitcoinMergedMiningCoinbaseTransaction bitcoinMergedMiningHeader bitcoinMergedMiningMerkleProof hashForMergedMining committedSeals committee pastCommittedSeals proposerSeal round),
        do: entry
 
