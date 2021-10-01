@@ -60,7 +60,7 @@ defmodule EthereumJSONRPC.WebSocket.WebSocketClient do
       end
 
     %URI{host: host} = URI.parse(url)
-    host_charlist = String.to_charlist(host)
+    #host_charlist = String.to_charlist(host)
 
     # `:depth`, `:verify`, and `:verify_fun`, are based on `:hackney_connect.ssl_opts_1/2` as we use `:hackney` through
     # `:httpoison` and this keeps the SSL rules consistent between HTTP and WebSocket
