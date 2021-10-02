@@ -18,7 +18,7 @@ defmodule Explorer.Repo.Migrations.CreateBlocks do
 
       add(:size, :integer, null: false)
       add(:timestamp, :utc_datetime_usec, null: false)
-      add(:total_difficulty, :numeric, precision: 50, default:0)
+      add(:total_difficulty, :numeric, precision: 50, default: 0)
 
       timestamps(null: false, type: :utc_datetime_usec)
     end
