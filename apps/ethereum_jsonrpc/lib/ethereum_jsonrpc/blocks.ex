@@ -334,7 +334,6 @@ defmodule EthereumJSONRPC.Blocks do
   """
   @spec to_elixir([Block.t()]) :: elixir
   def to_elixir(blocks) when is_list(blocks) do
-    Logger.info("Map list block to block")
     Enum.map(blocks, &Block.to_elixir/1)
   end
 end

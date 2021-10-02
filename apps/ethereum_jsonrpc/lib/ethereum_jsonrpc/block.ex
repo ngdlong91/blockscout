@@ -632,7 +632,6 @@ defmodule EthereumJSONRPC.Block do
   defp entry_to_elixir({key, quantity})
        when key in ~w(difficulty gasLimit gasUsed minimumGasPrice baseFeePerGas number rewards numTxs size cumulativeDifficulty totalDifficulty paidFees) and
               not is_nil(quantity) do
-                Logger.info("Key #{key}, Quan: #{quantity}")
     {key, quantity_to_integer(quantity)}
   end
 
