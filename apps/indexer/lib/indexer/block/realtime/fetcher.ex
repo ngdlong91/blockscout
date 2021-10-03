@@ -37,7 +37,7 @@ defmodule Indexer.Block.Realtime.Fetcher do
 
   @behaviour Block.Fetcher
 
-  @minimum_safe_polling_period :timer.seconds(15) # increase polling time
+  @minimum_safe_polling_period :timer.seconds(5) # increase polling time
 
   @enforce_keys ~w(block_fetcher)a
   defstruct ~w(block_fetcher subscription previous_number max_number_seen timer)a
@@ -147,7 +147,10 @@ defmodule Indexer.Block.Realtime.Fetcher do
 
   defp subscribe_to_new_heads(%__MODULE__{subscription: nil} = state, subscribe_named_arguments)
        when is_list(subscribe_named_arguments) do
-
+        Logger.info("-----------------------Sub new head-----------------------")
+        subscribe_named_arguments
+       |> inspect()
+       |> Logger.info()
     case EthereumJSONRPC.subscribe("newHeads", subscribe_named_arguments) do
       {:ok, subscription} ->
         %__MODULE__{state | subscription: subscription}
