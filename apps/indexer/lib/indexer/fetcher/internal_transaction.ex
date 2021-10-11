@@ -21,7 +21,7 @@ defmodule Indexer.Fetcher.InternalTransaction do
   @behaviour BufferedTask
 
   @max_batch_size 10 # default 10
-  @max_concurrency 20 # default 4
+  @max_concurrency 4 # default 4
   @defaults [
     flush_interval: :timer.seconds(3),
     max_concurrency: @max_concurrency,
@@ -97,7 +97,7 @@ defmodule Indexer.Fetcher.InternalTransaction do
     unique_numbers_count = Enum.count(unique_numbers)
     Logger.metadata(count: unique_numbers_count)
 
-    Logger.debug("fetching internal transactions for blocks")
+    Logger.info("fetching internal transactions for blocks")
 
     json_rpc_named_arguments
     |> Keyword.fetch!(:variant)
@@ -121,7 +121,15 @@ defmodule Indexer.Fetcher.InternalTransaction do
         import_internal_transaction(internal_transactions_params, unique_numbers)
 
       {:error, reason} ->
-        Logger.error(fn -> ["failed to fetch internal transactions for blocks: ", inspect(reason)] end,
+        Logger.error(
+          fn ->
+            block_numbers = unique_numbers |> inspect(charlists: :as_lists)
+
+            [
+              "failed to fetch internal transactions for #{unique_numbers_count} blocks: #{block_numbers} reason: ",
+              inspect(reason)
+            ]
+          end,
           error_count: unique_numbers_count
         )
 
