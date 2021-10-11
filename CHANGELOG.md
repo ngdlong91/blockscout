@@ -1,17 +1,30 @@
 ## Current
 
 ### Features
-- [#4655](https://github.com/blockscout/blockscout/pull/4655) - EIP-3091 support
+- [#4667](https://github.com/blockscout/blockscout/pull/4667) - Transaction Page: Add expand/collapse button for long contract method data
+- [#4641](https://github.com/blockscout/blockscout/pull/4641), [#4733](https://github.com/blockscout/blockscout/pull/4733) - Improve Read Contract page logic
+- [#4660](https://github.com/blockscout/blockscout/pull/4660) - Save Sourcify path instead of filename
+- [#4656](https://github.com/blockscout/blockscout/pull/4656) - Open in Tenderly button
+- [#4655](https://github.com/blockscout/blockscout/pull/4655), [#4676](https://github.com/blockscout/blockscout/pull/4676) - EIP-3091 support
 - [#4621](https://github.com/blockscout/blockscout/pull/4621) - Add beacon contract address slot for proxy
 - [#4625](https://github.com/blockscout/blockscout/pull/4625) - Contract address page: Add implementation link to the overview of proxy contracts
 - [#4624](https://github.com/blockscout/blockscout/pull/4624) - Support HTML tags in alert message
 - [#4608](https://github.com/blockscout/blockscout/pull/4608), [#4622](https://github.com/blockscout/blockscout/pull/4622) - Block Details page: Improved style of transactions button
-- [#4596](https://github.com/blockscout/blockscout/pull/4596) - Display token icon for bridged with Mainnet tokens or identicons for other tokens
+- [#4596](https://github.com/blockscout/blockscout/pull/4596), [#4681](https://github.com/blockscout/blockscout/pull/4681), [#4693](https://github.com/blockscout/blockscout/pull/4693) - Display token icon for bridged with Mainnet tokens or identicons for other tokens
 - [#4520](https://github.com/blockscout/blockscout/pull/4520) - Add support for EIP-1559
 - [#4593](https://github.com/blockscout/blockscout/pull/4593) - Add status in `Position` pane for txs have no block
 - [#4579](https://github.com/blockscout/blockscout/pull/4579) - Write contract page: Resize inputs; Improve multiplier selector
 
 ### Fixes
+- [#4711](https://github.com/blockscout/blockscout/pull/4711) - Add trimming to the contract functions inputs
+- [#4729](https://github.com/blockscout/blockscout/pull/4729) - Fix bugs with fees in cases of txs with `gas price = 0`
+- [#4725](https://github.com/blockscout/blockscout/pull/4725) - Fix hardcoded coin name on transaction's and block's page
+- [#4717](https://github.com/blockscout/blockscout/pull/4717) - Contract verification fix: check only success creation tx
+- [#4713](https://github.com/blockscout/blockscout/pull/4713) - Search input field: sanitize input
+- [#4703](https://github.com/blockscout/blockscout/pull/4703) - Block Details page: Fix pagination on the Transactions tab
+- [#4686](https://github.com/blockscout/blockscout/pull/4686) - Block page: check gas limit value before division
+- [#4678](https://github.com/blockscout/blockscout/pull/4678) - Internal transactions indexer: fix issue of some pending transactions never become confirmed
+- [#4668](https://github.com/blockscout/blockscout/pull/4668) - Fix css for dark theme
 - [#4654](https://github.com/blockscout/blockscout/pull/4654) - AddressView: Change `@burn_address` to string `0x0000000000000000000000000000000000000000`
 - [#4626](https://github.com/blockscout/blockscout/pull/4626) - Refine view of popup for reverted tx
 - [#4640](https://github.com/blockscout/blockscout/pull/4640) - Token page: fixes in mobile view
@@ -26,6 +39,12 @@
 - [#4582](https://github.com/blockscout/blockscout/pull/4582) - Fix NaN input on write contract page
 
 ### Chore
+- [#4735](https://github.com/blockscout/blockscout/pull/4735) - Code clean up: Remove clauses for outdated ganache bugs
+- [#4726](https://github.com/blockscout/blockscout/pull/4726) - Update chart.js
+- [#4707](https://github.com/blockscout/blockscout/pull/4707) - Top navigation: Move Accounts tab to Tokens
+- [#4704](https://github.com/blockscout/blockscout/pull/4704) - Update to Erlang/OTP 24
+- [#4682](https://github.com/blockscout/blockscout/pull/4682) - Update all possible outdated mix dependencies
+- [#4663](https://github.com/blockscout/blockscout/pull/4663) - Migrate to Elixir 1.12.x
 - [#4661](https://github.com/blockscout/blockscout/pull/4661) - Update NPM packages to resolve vulnerabilities
 - [#4649](https://github.com/blockscout/blockscout/pull/4649) - 1559 Transaction Page: Convert Burnt Fee to ether and add price in USD
 - [#4646](https://github.com/blockscout/blockscout/pull/4646) - Transaction page: Rename burned to burnt
