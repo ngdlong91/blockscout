@@ -298,6 +298,7 @@ defmodule EthereumJSONRPC do
   Fetches internal transactions from variant API.
   """
   def fetch_internal_transactions(params_list, json_rpc_named_arguments) when is_list(params_list) do
+    Logger.info("Fetch internal transaction ------------")
     json_rpc_named_arguments
     |> inspect()
     |> Logger.info()
