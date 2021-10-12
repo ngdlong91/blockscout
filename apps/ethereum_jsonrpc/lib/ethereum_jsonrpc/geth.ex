@@ -5,6 +5,8 @@ defmodule EthereumJSONRPC.Geth do
 
   import EthereumJSONRPC, only: [id_to_params: 1, integer_to_quantity: 1, json_rpc: 2, request: 1]
 
+  require Logger
+
   alias EthereumJSONRPC.{FetchedBalance, FetchedCode, Transactions}
   alias EthereumJSONRPC.Geth.{Calls, Tracer}
 
@@ -24,6 +26,10 @@ defmodule EthereumJSONRPC.Geth do
   @impl EthereumJSONRPC.Variant
   def fetch_internal_transactions(transactions_params, json_rpc_named_arguments) when is_list(transactions_params) do
     id_to_params = id_to_params(transactions_params)
+    Logger.info("Id to params --------")
+    id_to_params
+    |> inspect()
+    |> Logger.info()
 
     with {:ok, responses} <-
            id_to_params
