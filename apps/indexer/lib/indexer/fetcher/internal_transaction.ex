@@ -97,7 +97,7 @@ defmodule Indexer.Fetcher.InternalTransaction do
     unique_numbers_count = Enum.count(unique_numbers)
     Logger.metadata(count: unique_numbers_count)
 
-    Logger.info("fetching internal transactions for blocks")
+    Logger.info("do fetching internal transactions for blocks")
 
     json_rpc_named_arguments
     |> Keyword.fetch!(:variant)
@@ -167,7 +167,7 @@ defmodule Indexer.Fetcher.InternalTransaction do
     Enum.reduce(unique_numbers, {:ok, []}, fn
       block_number, {:ok, acc_list} ->
         Logger.info("do fetch_block_internal_transactions_by_transactions: #{block_number}")
-        numberr
+        block_number
         |> Chain.get_transactions_of_block_number()
         |> Enum.map(&params(&1))
         |> case do
